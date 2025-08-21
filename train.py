@@ -10,7 +10,7 @@ from accelerate.utils import DistributedType
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import torch
 import transformers
-from transformers import Trainer, deepspeed
+from transformers import Trainer#, deepspeed  在 transformers 库的较新版本中，deepspeed 模块不再直接从 transformers 的顶层导入。
 
 
 from arguments import ModelArguments, DataArguments, TrainingArguments, LoraArguments
@@ -71,6 +71,7 @@ def train():
         use_flash_attn=training_args.use_flash_attn,
         device_map=device_map,
     )
+    # import pdb;pdb.set_trace()
     model, tokenizer, processor, config = loader.load()
     tokenizer.model_max_length = training_args.model_max_length
 

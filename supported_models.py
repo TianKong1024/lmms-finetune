@@ -156,6 +156,13 @@ register_model(
     model_hf_path="Qwen/Qwen-VL-Chat"
 )
 
+
+# qwen-vl-local ----------------------------------------------------
+register_model(
+    model_id="qwen-vl-chat-local",
+    model_family_id="qwen-vl",
+    model_hf_path="qwen/Qwen-VL-Chat"
+)
 # phi3-v -----------------------------------------------------
 register_model(
     model_id="phi3-v",

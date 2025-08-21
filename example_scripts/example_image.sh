@@ -1,3 +1,6 @@
+torchrun=/cpfs01/projects-SSD/cfff-4a8d9af84f66_SSD/zhengkai/miniconda3/envs/torch2x/bin/torchrun
+workspace=/cpfs01/projects-HDD/cfff-4a8d9af84f66_HDD/public/zhengkai/zhengkai_dev/git/lmms-finetune
+cd ${workspace}
 NUM_GPUS=1
 DISTRIBUTED_ARGS="
     --nnodes=1 \
@@ -8,7 +11,8 @@ DISTRIBUTED_ARGS="
 
 # arguments that are very likely to be changed
 # according to your own case
-MODEL_ID=llava-1.5-7b                                   # model id; pick on by running `python supported_models.py`
+MODEL_ID=qwen-vl-chat-local                                   # model id; pick on by running `python supported_models.py`
+MODEL_LOCAL_PATH=/cpfs01/projects-HDD/cfff-4a8d9af84f66_HDD/zhengkai/workspace/zhengkai_dev/git/multimoding/models/qwen/Qwen-VL-Chat
 TRAIN_DATA_PATH=./example_data/celeba_image_train.json  # path to the training data json file
 EVAL_DATA_PATH=./example_data/celeba_image_eval.json    # path to the evaluation data json file (optional)
 IMAGE_FOLDER=./example_data/images                      # path to the image root folder; if provided, the image paths in the json should be relative
@@ -27,7 +31,7 @@ LORA_ALPHA=8                                            # the lora alpha (both l
 RUN_ID=${MODEL_ID}_lora-${USE_LORA}_qlora-${Q_LORA}     # a custom run id that determines the checkpoint folder and wandb run name
 
 DS_STAGE=zero3                                          # deepspeed stage; < zero2 | zero3 >
-PER_DEVICE_BATCH_SIZE=2                                 # batch size per GPU
+PER_DEVICE_BATCH_SIZE=1 # 22841MB                       # batch size per GPU
 GRAD_ACCUM=1                                            # gradient accumulation steps
 NUM_EPOCHS=5                                            # number of training epochs
 
@@ -35,7 +39,7 @@ LR=2e-5                                                 # learning rate
 MODEL_MAX_LEN=1024                                       # maximum input length of the model
 
 
-torchrun $DISTRIBUTED_ARGS train.py \
+${torchrun} $DISTRIBUTED_ARGS train.py \
     --model_id $MODEL_ID \
     --data_path $TRAIN_DATA_PATH \
     --eval_data_path $EVAL_DATA_PATH \
@@ -69,5 +73,6 @@ torchrun $DISTRIBUTED_ARGS train.py \
     --use_lora $USE_LORA \
     --q_lora $Q_LORA \
     --lora_r $LORA_R \
-    --lora_alpha $LORA_ALPHA
+    --lora_alpha $LORA_ALPHA \
+    --model_local_path $MODEL_LOCAL_PATH
     
