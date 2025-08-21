@@ -1,3 +1,6 @@
+# !/bin/bash
+# 在你的 Shell 配置文件中添加这行
+export WANDB_MODE=disabled
 torchrun=/cpfs01/projects-SSD/cfff-4a8d9af84f66_SSD/zhengkai/miniconda3/envs/torch2x/bin/torchrun
 workspace=/cpfs01/projects-HDD/cfff-4a8d9af84f66_HDD/public/zhengkai/zhengkai_dev/git/lmms-finetune
 cd ${workspace}
@@ -76,3 +79,10 @@ ${torchrun} $DISTRIBUTED_ARGS train.py \
     --lora_alpha $LORA_ALPHA \
     --model_local_path $MODEL_LOCAL_PATH
     
+
+# ! bugs fixed
+# model_local_path需要传入
+# 模型注册
+# tokenizer需要修改成从model_local_path加载
+# transformers 版本要和requirements.txt一致
+# 修改modelpath中的visual.py：assert torch.allclose(query, key), 'Only Support Self-Attention Currently'
