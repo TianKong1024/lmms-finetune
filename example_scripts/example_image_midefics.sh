@@ -16,8 +16,8 @@ DISTRIBUTED_ARGS="
 # according to your own case
 MODEL_ID=qwen-vl-chat-local                                   # model id; pick on by running `python supported_models.py`
 MODEL_LOCAL_PATH=/cpfs01/projects-HDD/cfff-4a8d9af84f66_HDD/zhengkai/workspace/zhengkai_dev/git/multimoding/models/qwen/Qwen-VL-Chat
-TRAIN_DATA_PATH=./example_data/converted_single_turn_data.json  # path to the training data json file
-EVAL_DATA_PATH=./example_data/converted_single_turn_data.json    # path to the evaluation data json file (optional)
+TRAIN_DATA_PATH=./example_data/midefics_train.json  # path to the training data json file
+EVAL_DATA_PATH=./example_data/midefics_test.json    # path to the evaluation data json file (optional)
 IMAGE_FOLDER=./example_data/images                      # path to the image root folder; if provided, the image paths in the json should be relative
 VIDEO_FOLDER=./example_data/videos                      # path to the video root folder; if provided, the video paths in the json should be relative
 NUM_FRAMES=8                                            # how many frames are sampled from each video
@@ -34,7 +34,7 @@ LORA_ALPHA=8                                            # the lora alpha (both l
 RUN_ID=${MODEL_ID}_lora-${USE_LORA}_qlora-${Q_LORA}     # a custom run id that determines the checkpoint folder and wandb run name
 
 DS_STAGE=zero3                                          # deepspeed stage; < zero2 | zero3 >
-PER_DEVICE_BATCH_SIZE=1 # 22841MB                       # batch size per GPU
+PER_DEVICE_BATCH_SIZE=32 # 22841MB                       # batch size per GPU
 GRAD_ACCUM=1                                            # gradient accumulation steps
 NUM_EPOCHS=5                                            # number of training epochs
 
