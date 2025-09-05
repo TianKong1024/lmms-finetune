@@ -34,7 +34,8 @@ LORA_ALPHA=8                                            # the lora alpha (both l
 RUN_ID=${MODEL_ID}_lora-${USE_LORA}_qlora-${Q_LORA}     # a custom run id that determines the checkpoint folder and wandb run name
 
 DS_STAGE=zero3                                          # deepspeed stage; < zero2 | zero3 >
-PER_DEVICE_BATCH_SIZE=32 # 22841MB                       # batch size per GPU
+PER_DEVICE_BATCH_SIZE_TRAIN=24 # 22841MB                # batch size per GPU
+PER_DEVICE_BATCH_SIZE_EVAL=2                            # batch size per GPU
 GRAD_ACCUM=1                                            # gradient accumulation steps
 NUM_EPOCHS=5                                            # number of training epochs
 
@@ -55,8 +56,8 @@ nohup ${torchrun} $DISTRIBUTED_ARGS train.py \
     --deepspeed ./ds_configs/${DS_STAGE}.json \
     --bf16 True \
     --num_train_epochs $NUM_EPOCHS \
-    --per_device_train_batch_size $PER_DEVICE_BATCH_SIZE \
-    --per_device_eval_batch_size $PER_DEVICE_BATCH_SIZE \
+    --per_device_train_batch_size $PER_DEVICE_BATCH_SIZE_TRAIN \
+    --per_device_eval_batch_size  $PER_DEVICE_BATCH_SIZE_EVAL \
     --gradient_accumulation_steps $GRAD_ACCUM \
     --eval_strategy "epoch" \
     --save_strategy "epoch" \
